@@ -23,4 +23,28 @@ public class OrderItem {
     private int orderPrice; // 注文価格
 
     private int count; // 注文数量
+
+    //==生成メソッド==//
+    public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setItem(item);
+        orderItem.setOrderPrice(orderPrice);
+        orderItem.setCount(count);
+
+        item.removeStock(count);
+        return orderItem;
+    }
+
+    //==ビジネスロジック==//
+    public void cancel() {
+        getItem().addStock(count);
+    }
+
+    //==検索ロジック==//
+    /**
+     * 注文商品の全体金額を取得
+     */
+    public int getTotalPrice() {
+        return getOrderPrice() * getCount();
+    }
 }
